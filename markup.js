@@ -79,7 +79,7 @@ function hasInlineCode(token) {
 function tables(tokens) {
     for (let i = 0; i < tokens.length; i++) {
         let t = tokens[i]
-        if (t.type === 'table_open' && (i === 0 || tokens[i-1].content !== `<div class="table">\n`)) {
+        if (t.type === 'table_open' && (i === 0 || tokens[i - 1].content !== `<div class="table">\n`)) {
             for (let j = i + 1; j < tokens.length; j++) {
                 let t2 = tokens[j];
                 if (t2.type === 'table_close') {
@@ -162,7 +162,7 @@ function codeToggles(tokens) {
                         let labelMatch = t.info.match(/([^ ]) +(.*)/);
                         if (labelMatch) {
                             // give the slot a random slot name
-                            slotName = 'slot'+i;
+                            slotName = 'slot' + i;
                             labels[slotName] = labelMatch[2];
 
                             // remove the label from the code info
@@ -218,7 +218,7 @@ function codeBlocks(tokens, replace) {
 }
 
 function isHeading(t, type) {
-    return t.type === type && (t.tag === 'h1' || t.tag === 'h2' || t.tag === 'h3');
+    return t.type === type && (t.tag === 'h1' || t.tag === 'h2' || t.tag === 'h3' || t.tag === 'h4');
 }
 
 function block(tag, level) {
