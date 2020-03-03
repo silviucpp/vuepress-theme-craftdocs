@@ -9,5 +9,9 @@
   "private": false,
   "dependencies": {
     "vuex": "^3.0.1"
+  },
+  "devDependencies": {
+    "markdown-it": "^8.4.0",
+    "markdown-it-container": "^2.0.0"
   }
 }

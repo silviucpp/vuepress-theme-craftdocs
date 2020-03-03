@@ -2,6 +2,18 @@
 
 This is the [VuePress](https://vuepress.vuejs.org/) theme used for [Craft CMS documentation](https://docs.craftcms.com/).
 
+## Changes
+
+Works with Vuepress 1.x
+
+You will have the following to you vuepress `config.js`
+
+```
+  alias: {
+    "@AlgoliaSearchBox": path.resolve(__dirname,'noop.js'),
+  },
+```
+
 ## Setup
 
 1. [Install](https://vuepress.vuejs.org/guide/getting-started.html) VuePress like normal

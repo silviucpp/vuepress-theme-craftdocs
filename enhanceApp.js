@@ -3,6 +3,7 @@ import CodeToggle from './CodeToggle'
 import CodeLanguageSwitcher from './CodeLanguageSwitcher'
 import { setStorage } from './Storage'
 
+
 export default ({ Vue, options, router, siteData }) => {
     Vue.component('code-toggle', CodeToggle)
     Vue.component('code-language-switcher', CodeLanguageSwitcher)

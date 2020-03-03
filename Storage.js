@@ -1,4 +1,8 @@
-import { siteData } from '@temp/siteData'
+let siteData;
+
+const setSiteData = (data) => {
+    siteData = data;
+}
 
 const storagePrefix = function() {
     let p = siteData.base.replace(/^\//, '').replace(/\/$/, '').replace(/\//g, '.');
@@ -24,6 +28,7 @@ const getStorage = function(name) {
 }
 
 export {
+    setSiteData,
     storagePrefix,
     getStorage,
     setStorage
