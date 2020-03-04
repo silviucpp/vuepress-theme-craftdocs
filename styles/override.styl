@@ -180,6 +180,7 @@ ul.code-language-switcher {
         background: $blockColor;
         content: '.';
         font-size: 0;
+        box-sizing: border-box;
       }
 
       & > ul.code-language-switcher {
@@ -195,6 +196,7 @@ ul.code-language-switcher {
           width: calc(200% + 10rem);
           display: flex;
           flex-direction: row;
+          box-sizing: border-box;
 
           & > div {
             z-index: 1;
@@ -213,6 +215,7 @@ ul.code-language-switcher {
 
                 &:before {
                   display: none;
+                  box-sizing: border-box;
                 }
 
                 .highlighted-line {
