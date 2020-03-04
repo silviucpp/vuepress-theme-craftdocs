@@ -1,6 +1,6 @@
 <template>
   <div class="theme-container">
-    <div class="content">
+    <div class="content__default">
       <h1>404</h1>
       <blockquote>{{ getMsg() }}</blockquote>
       <router-link to="/">Take me home.</router-link>

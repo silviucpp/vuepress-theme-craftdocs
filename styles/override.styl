@@ -16,7 +16,7 @@ toRgba(color) {
   background: $sidebarColor;
 }
 
-{$contentClass} {
+.content__default {
   dl {
     display: flex;
     flex-flow: row wrap;
@@ -188,7 +188,7 @@ ul.code-language-switcher {
         width: 'calc(50% - %s)' % ($sidebarWidth / 2);
       }
 
-      {$contentClass} {
+      .content__default {
         margin-right: 0;
 
         .split {
@@ -241,7 +241,7 @@ ul.code-language-switcher {
         width: 'calc(100% - %s)' % ($sidebarWidth * 0.82);
       }
 
-      {$contentClass} {
+      .content__default {
         & > *:first-child {
           margin-top: $navbarHeight * 2;
         }
