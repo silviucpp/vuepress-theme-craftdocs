@@ -59,12 +59,14 @@
 <script>
 import Vue from 'vue'
 import nprogress from 'nprogress'
-import Home from './Home.vue'
-import Navbar from './Navbar.vue'
-import Page from './Page.vue'
-import Sidebar from './Sidebar.vue'
-import SWUpdatePopup from './SWUpdatePopup.vue'
-import { resolveSidebarItems } from './util'
+import Home from '../components/Home.vue'
+import Navbar from '../components/Navbar.vue'
+import Page from '../components/Page.vue'
+import Sidebar from '../components/Sidebar.vue'
+import SWUpdatePopup from '../components/SWUpdatePopup.vue'
+import { resolveSidebarItems } from '../util'
+
+console.log('using layout');
 
 export default {
   components: { Home, Page, Sidebar, Navbar, SWUpdatePopup },
@@ -128,6 +130,7 @@ export default {
   },
 
   mounted () {
+    console.log('mounted layout')
     window.addEventListener('scroll', this.onScroll)
 
     // configure progress bar
@@ -181,4 +184,4 @@ export default {
 </script>
 
 <style src="prismjs/themes/prism-solarizedlight.css"></style>
-<style src="./styles/theme.styl" lang="stylus"></style>
+<style src="../styles/index.styl" lang="stylus"></style>

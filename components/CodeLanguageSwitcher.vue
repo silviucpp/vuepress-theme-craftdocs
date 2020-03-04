@@ -7,7 +7,7 @@
 </template>
 
 <script>
-    import { getStorage } from './Storage'
+    import { getStorage } from '../Storage'
 
     export default {
         mounted() {
