@@ -218,7 +218,7 @@ function codeBlocks(tokens, replace) {
 }
 
 function isHeading(t, type) {
-    return t.type === type && (t.tag === 'h1' || t.tag === 'h2' || t.tag === 'h3' || t.tag === 'h4');
+    return t.type === type && (t.tag === 'h1' || t.tag === 'h2' || t.tag === 'h3');
 }
 
 function block(tag, level) {
