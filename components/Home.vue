@@ -107,7 +107,7 @@ export default {
   .features
     border-top 1px solid $borderColor
     padding 1.2rem 0
-    margin-top 2.5rem
+    margin-top 1.5rem
     display flex
     flex-wrap wrap
     align-items flex-start
@@ -126,7 +126,7 @@ export default {
     p
       color lighten($textColor, 25%)
   .footer
-    padding 2.5rem
+    padding 1.5rem
     border-top 1px solid $borderColor
     text-align center
     color lighten($textColor, 25%)
@@ -137,7 +137,7 @@ export default {
       flex-direction column
     .feature
       max-width 100%
-      padding 0 2.5rem
+      padding 0 1.5rem
 
 @media (max-width: $MQMobileNarrow)
   .home
