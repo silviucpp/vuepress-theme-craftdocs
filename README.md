@@ -64,20 +64,33 @@ Hey, {{ name }}
 
 :::
 ````
-
-By default, toggle labels will be pulled from the value in `themeConfig.codeLanguages` that matches the code block’s language. If you want to provide a custom label instead, just type it after the code block language:
+You can assign same code block to multiple toggles:
 
 ````markdown
 ::: code
 
-```php Craft 2
-$success = craft()->entries->saveEntry($entry);
+```php twig
+{
+    "is_public": true,
+    "url": "/3.0",
+    "version": "3.0"
+}
 ```
+:::
+````
 
-```php Craft 3
-$success = Craft::$app->elements->saveElement($entry);
+Also you can specify what language to use for highlighting. Usefull when you want to render same code in multiple toggles (an API response for example):
+
+````markdown
+::: code
+
+```json -> php twig
+{
+    "is_public": true,
+    "url": "/3.0",
+    "version": "3.0"
+}
 ```
-
 :::
 ````
 

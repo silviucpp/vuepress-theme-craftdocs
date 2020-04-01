@@ -156,29 +156,37 @@ function codeToggles(tokens) {
                     let labels = {};
 
                     codeBlocks(innerTokens, (t, i) => {
-                        let slotName;
 
-                        // does the slot have a custom label?
-                        let labelMatch = t.info.match(/([^ ]) +(.*)/);
-                        if (labelMatch) {
-                            // give the slot a random slot name
-                            slotName = 'slot' + i;
-                            labels[slotName] = labelMatch[2];
+                        let blocks = [];
+                        let block_tags = [];
+                        let block_language = null;
 
-                            // remove the label from the code info
-                            t.info = t.info.replace(labelMatch[0], labelMatch[1]);
-                        } else {
-                            // set the slot name to the language (w/out line numbers)
-                            slotName = t.info.replace(/\{.*\}/, '').trim();
+                        let slot_info = t.info.trim().split("->");
+
+                        if(slot_info.length == 1)
+                        {
+                            block_tags = t.info.trim().split(" ");
+                        }
+                        else if(slot_info.length == 2)
+                        {
+                            block_language = slot_info[0];
+                            block_tags = slot_info[1].trim().split(" ");
                         }
 
-                        slotNames.push(slotName);
+                        for (var i = 0; i < block_tags.length; i++) 
+                        {
+                            let name = block_tags[i].trim();
+                            slotNames.push(name);
+                            t.info = block_language == null ? name : block_language;
 
-                        return [
-                            block(`<template slot="${slotName}">`, t.level),
-                            t,
-                            block('</template>', t.level)
-                        ]
+                            blocks.push(... [
+                                block(`<template slot="${name}">`, t.level),
+                                t,
+                                block('</template>', t.level)
+                            ]);
+                        }
+
+                        return blocks;
                     });
 
                     let openBlock = block(`<code-toggle :languages='${JSON.stringify(slotNames)}' :labels='${JSON.stringify(labels)}'>`, tokens[i].level);
