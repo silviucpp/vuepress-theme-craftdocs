@@ -133,18 +133,45 @@ export function resolveSidebarItems (page, route, site, localePath) {
 
 function resolveHeaders (page) {
   const headers = groupHeaders(page.headers || [])
-  return [{
+
+  const groups_tags = page.frontmatter.sidebarGroups || {};
+  let default_group = {name: page.title, childrens: []}
+  let groups = []
+  let last_group
+
+  headers.forEach(h => {
+    let g_name = groups_tags[h.slug];
+
+    if(g_name !== undefined)
+    {
+        last_group = {name: g_name, childrens: [h]}
+        groups.push(last_group)
+    }
+    else if(last_group)
+    {
+        last_group.childrens.push(h)
+    }
+    else
+    {
+        default_group.childrens.push(h)
+    }
+  })
+
+  if(groups.length == 0)
+    groups.push(default_group)
+
+  return groups.map(g => ({
     type: 'group',
     collapsable: false,
-    title: page.title,
-    children: headers.map(h => ({
+    title: g.name,
+    children: g.childrens.map(h => ({
       type: 'auto',
       title: h.title,
       basePath: page.path,
       path: page.path + '#' + h.slug,
       children: h.children || []
     }))
-  }]
+  }))
 }
 
 export function groupHeaders (headers) {
