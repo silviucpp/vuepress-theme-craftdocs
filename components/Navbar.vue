@@ -32,8 +32,8 @@
       />
       <SearchBox v-else-if="$site.themeConfig.search !== false"/>
       -->
+      <NavLinks class="can-hide" style="padding-right:1rem"/>
       <SearchBox v-if="$site.themeConfig.search !== false"/>
-      <NavLinks class="can-hide"/>
     </div>
   </header>
 </template>
@@ -113,7 +113,8 @@ $navbar-horizontal-padding = 1.5rem
   .links
     padding-left 1.5rem
     box-sizing border-box
-    background-color white
+    background-color $navbarBackgroundColor
+    color $navbarTextColor
     white-space nowrap
     font-size 0.9rem
     position absolute
