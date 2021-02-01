@@ -173,6 +173,8 @@ export default {
     background #fff url(./search.svg) 0.6rem 0.5rem no-repeat
     background-size 1rem
     &:focus
+      min-width: 18rem
+      width: auto
       cursor auto
       border-color $accentColor
   .suggestions
