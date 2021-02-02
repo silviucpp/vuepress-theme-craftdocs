@@ -11,16 +11,30 @@
       </p>
   </div>
 
-  <div class="content">
-
-    <div class="features" v-if="data.features && data.features.length">
-
+  <div class="content" v-if="data.features && data.features.length">
+    <div class="features">
       <div class="feature" v-for="(feature, index) in data.features" :key="index">
         <img v-if="feature.icon" :src="$withBase(feature.icon)" :alt="feature.title">
         <h2> <a :href="feature.url"> {{ feature.title }} </a></h2>
         <p v-html="feature.details"></p>
       </div>
     </div>
+  </div>
+
+  <div class="fullpage sdks_container" v-if="data.sdks && data.sdks.items.length">
+    <h1>{{data.sdks.title}}</h1>
+    <div class="content">
+      <div class="sdks">
+        <div class="sdk" v-for="(sdk, index) in data.sdks.items" :key="index">
+          <a :href="sdk.url">
+            <img v-if="sdk.icon" :src="$withBase(sdk.icon)" :alt="sdk.title">
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
 
     <Content custom/>
 
@@ -55,6 +69,13 @@ export default {
 @import '../styles/config.styl'
 
 .homepage
+  .fullpage
+    text-align center
+    padding 2rem
+
+  .sdks_container
+    background-color $sdksBackgroundColor
+
   .header
     padding $navbarHeight 1rem 1rem
     background-color #010029
@@ -84,11 +105,28 @@ export default {
   .content
     max-width 960px
     margin 0rem auto
-  
+
+    .sdks
+      padding 1rem 0
+      display flex
+      flex-wrap wrap
+      align-content stretch
+      justify-content space-between
+    .sdk
+      flex-grow 1
+      flex-basis 20%
+      a
+        filter grayscale(100%)
+        &:hover
+          filter grayscale(0%)
+      img
+        display block
+        margin 1rem auto
+        width 35%
+        max-width 10rem
+
     .features
-      border-bottom 1px solid $borderColor
-      padding 1.2rem 0
-      margin-top 1.5rem
+      margin 2.5rem auto
       display flex
       flex-wrap wrap
       align-content stretch
@@ -110,6 +148,7 @@ export default {
         padding-bottom 0
         color lighten($textColor, 10%)
       p
+        font-size 0.875rem
         text-align center
         color lighten($textColor, 25%)
     .footer
@@ -121,6 +160,9 @@ export default {
 @media (max-width: $MQMobile)
   .homepage
     .content
+      .sdks
+        .sdk
+          flex-basis 30%
       .features
         flex-direction column
       .feature
