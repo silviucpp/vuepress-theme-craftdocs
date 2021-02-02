@@ -1,46 +1,63 @@
 <template>
 
-<div class="homepage">
+  <div class="homepage">
 
-  <div class="header">
+    <div class="header">
 
-      <h1 class="description">{{$description || '' }}</h1>
+        <h1 class="description">{{$description || '' }}</h1>
 
-      <p class="action" v-if="data.actionText && data.actionLink">
-          <NavLink class="action-button" :item="actionLink"/>
-      </p>
-  </div>
-
-  <div class="content" v-if="data.features && data.features.length">
-    <div class="features">
-      <div class="feature" v-for="(feature, index) in data.features" :key="index">
-        <img v-if="feature.icon" :src="$withBase(feature.icon)" :alt="feature.title">
-        <h2> <a :href="feature.url"> {{ feature.title }} </a></h2>
-        <p v-html="feature.details"></p>
-      </div>
+        <p class="action" v-if="data.actionText && data.actionLink">
+            <NavLink class="action-button" :item="actionLink"/>
+        </p>
     </div>
-  </div>
 
-  <div class="fullpage sdks_container" v-if="data.sdks && data.sdks.items.length">
-    <h1>{{data.sdks.title}}</h1>
-    <div class="content">
-      <div class="sdks">
-        <div class="sdk" v-for="(sdk, index) in data.sdks.items" :key="index">
-          <a :href="sdk.url" :target=sdk.url_target>
-            <img v-if="sdk.icon" :src="$withBase(sdk.icon)" :alt="sdk.title">
-          </a>
+    <div class="content" v-if="data.products && data.products.length">
+      <div class="products">
+        <div class="product" v-for="(item, index) in data.products" :key="index">
+          <img v-if="item.icon" :src="$withBase(item.icon)" :alt="item.title">
+          <h2> <a :href="item.url"> {{ item.title }} </a></h2>
+          <p v-html="item.details"></p>
         </div>
       </div>
     </div>
+
+    <div class="fullpage sdks_container" v-if="data.sdks && data.sdks.items.length">
+      <h1>{{data.sdks.title}}</h1>
+
+      <div class="content">
+        <div class="sdks">
+          <div class="sdk" v-for="(sdk, index) in data.sdks.items" :key="index">
+            <a :href="sdk.url" :target=sdk.url_target>
+              <img v-if="sdk.icon" :src="$withBase(sdk.icon)" :alt="sdk.title">
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fullpage features_container" v-if="data.features && data.features.items.length">
+      <h1>{{data.features.title}}</h1>
+
+      <div class="content" >
+        <div class="products">
+          <div class="product" v-for="(item, index) in data.features.items" :key="index">
+            <img class="grayscale" v-if="item.icon" :src="$withBase(item.icon)" :alt="item.title">
+            <h2> <a :href="item.url"> {{ item.title }} </a></h2>
+            <p v-html="item.details"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="content" v-if="data.has_content">
+      <Content custom/>
+    </div>
+
+    <div class="fullpage footer_container" v-if="data.footer">
+      <div class="footer"> {{ data.footer }} </div>
+    </div>
+
   </div>
-
-  <div class="content">
-
-    <Content custom/>
-
-    <div class="footer" v-if="data.footer" > {{ data.footer }} </div>
-  </div>
-</div>
 
 </template>
 
@@ -76,9 +93,15 @@ export default {
   .sdks_container
     background-color $sdksBackgroundColor
 
+  .features_container
+    background-color $featuresBackgroundColor
+
+  .footer_container
+    background-color $footerBackgroundColor
+  
   .header
     padding $navbarHeight 1rem 1rem
-    background-color #010029
+    background-color $headerBackgroundColor
     text-align center
     .description, .action
       margin 1.8rem auto
@@ -101,61 +124,61 @@ export default {
       &:hover
         background-color lighten($accentColor, 10%)
 
-.homepage
+  .footer
+    padding-top 2rem
+    border-top 1px solid $borderColor
+    text-align center
+    color lighten($textColor, 25%)   
+
   .content
-    max-width 960px
-    margin 0rem auto
+      max-width 960px
+      margin 0rem auto
 
-    .sdks
-      padding 1rem 0
-      display flex
-      flex-wrap wrap
-      align-content stretch
-      justify-content space-between
-    .sdk
-      flex-grow 1
-      flex-basis 20%
-      a
-        filter grayscale(100%)
-        &:hover
-          filter grayscale(0%)
-      img
-        display block
-        margin 1rem auto
-        width 35%
-        max-width 10rem
+      .sdks
+        padding 1rem 0
+        display flex
+        flex-wrap wrap
+        align-content stretch
+        justify-content space-between
+      .sdk
+        flex-grow 1
+        flex-basis 20%
+        a
+          filter grayscale(100%)
+          &:hover
+            filter grayscale(0%)
+        img
+          display block
+          margin 1rem auto
+          width 35%
+          max-width 10rem
 
-    .features
-      margin 2.5rem auto
-      display flex
-      flex-wrap wrap
-      align-content stretch
-      justify-content space-between
-    .feature
-      flex-grow 1
-      flex-basis 30%
-      max-width 30%
-      img 
-        display block
-        margin-left auto
-        margin-right auto
-        width 30%
-      h2
-        text-align center
-        font-size 1.4rem
-        font-weight 500
-        border-bottom none
-        padding-bottom 0
-        color lighten($textColor, 10%)
-      p
-        font-size 0.875rem
-        text-align center
-        color lighten($textColor, 25%)
-    .footer
-      padding 1.5rem
-      border-top 1px solid $borderColor
-      text-align center
-      color lighten($textColor, 25%)
+      .products
+        margin 2.5rem auto
+        display flex
+        flex-wrap wrap
+        align-content stretch
+        justify-content space-between
+      .product
+        flex-grow 1
+        flex-basis 30%
+        max-width 30%
+        img 
+          display block
+          margin-left auto
+          margin-right auto
+          width 30%
+        h2
+          text-align center
+          font-size 1.4rem
+          font-weight 500
+          border-bottom none
+          padding-bottom 0
+          color lighten($textColor, 10%)
+        p
+          font-size 0.875rem
+          text-align center
+          color lighten($textColor, 25%)
 
 @media (max-width: $MQMobile)
   .homepage
@@ -163,9 +186,9 @@ export default {
       .sdks
         .sdk
           flex-basis 30%
-      .features
+      .products
         flex-direction column
-      .feature
+      .product
         max-width 100%
         padding 0 1.5rem
 
@@ -182,7 +205,7 @@ export default {
   .content
     padding-left 1.5rem
     padding-right 1.5rem
-    .feature
+    .product
       h2
         font-size 1.25rem
 </style>
