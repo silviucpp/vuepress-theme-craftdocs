@@ -1,52 +1,33 @@
 <template>
-  <div class="home">
-    <div class="hero">
-      <img
-        v-if="data.heroImage"
-        :src="$withBase(data.heroImage)"
-        alt="hero"
-      >
 
-      <h1>{{ data.heroText || $title || 'Hello' }}</h1>
+<div class="homepage">
 
-      <p class="description">
-        {{ data.tagline || $description || 'Welcome to your VuePress site' }}
+  <div class="header">
+
+      <h1 class="description">{{$description || '' }}</h1>
+
+      <p class="action" v-if="data.actionText && data.actionLink">
+          <NavLink class="action-button" :item="actionLink"/>
       </p>
+  </div>
 
-      <p
-        class="action"
-        v-if="data.actionText && data.actionLink"
-      >
-        <NavLink
-          class="action-button"
-          :item="actionLink"
-        />
-      </p>
-    </div>
+  <div class="content">
 
-    <div
-      class="features"
-      v-if="data.features && data.features.length"
-    >
-      <div
-        class="feature"
-        v-for="(feature, index) in data.features"
-        :key="index"
-      >
-        <h2>{{ feature.title }}</h2>
-        <p>{{ feature.details }}</p>
+    <div class="features" v-if="data.features && data.features.length">
+
+      <div class="feature" v-for="(feature, index) in data.features" :key="index">
+        <img v-if="feature.icon" :src="$withBase(feature.icon)" :alt="feature.title">
+        <h2> <a :href="feature.url"> {{ feature.title }} </a></h2>
+        <p v-html="feature.details"></p>
       </div>
     </div>
 
     <Content custom/>
 
-    <div
-      class="footer"
-      v-if="data.footer"
-    >
-      {{ data.footer }}
-    </div>
+    <div class="footer" v-if="data.footer" > {{ data.footer }} </div>
   </div>
+</div>
+
 </template>
 
 <script>
@@ -73,25 +54,19 @@ export default {
 <style lang="stylus">
 @import '../styles/config.styl'
 
-.home
-  padding $navbarHeight 2rem 0
-  max-width 960px
-  margin 0px auto
-  .hero
+.homepage
+  .header
+    padding $navbarHeight 1rem 1rem
+    background-color #010029
     text-align center
-    img
-      max-height 280px
-      display block
-      margin 3rem auto 1.5rem
-    h1
-      font-size 3rem
-    h1, .description, .action
+    .description, .action
       margin 1.8rem auto
     .description
       max-width 35rem
-      font-size 1.6rem
+      font-size 1.8rem
+      font-weight 600
       line-height 1.3
-      color lighten($textColor, 40%)
+      color white
     .action-button
       display inline-block
       font-size 1.2rem
@@ -104,58 +79,67 @@ export default {
       border-bottom 1px solid darken($accentColor, 10%)
       &:hover
         background-color lighten($accentColor, 10%)
-  .features
-    border-top 1px solid $borderColor
-    padding 1.2rem 0
-    margin-top 1.5rem
-    display flex
-    flex-wrap wrap
-    align-items flex-start
-    align-content stretch
-    justify-content space-between
-  .feature
-    flex-grow 1
-    flex-basis 30%
-    max-width 30%
-    h2
-      font-size 1.4rem
-      font-weight 500
-      border-bottom none
-      padding-bottom 0
-      color lighten($textColor, 10%)
-    p
+
+.homepage
+  .content
+    max-width 960px
+    margin 0rem auto
+  
+    .features
+      border-bottom 1px solid $borderColor
+      padding 1.2rem 0
+      margin-top 1.5rem
+      display flex
+      flex-wrap wrap
+      align-content stretch
+      justify-content space-between
+    .feature
+      flex-grow 1
+      flex-basis 30%
+      max-width 30%
+      img 
+        display block
+        margin-left auto
+        margin-right auto
+        width 30%
+      h2
+        text-align center
+        font-size 1.4rem
+        font-weight 500
+        border-bottom none
+        padding-bottom 0
+        color lighten($textColor, 10%)
+      p
+        text-align center
+        color lighten($textColor, 25%)
+    .footer
+      padding 1.5rem
+      border-top 1px solid $borderColor
+      text-align center
       color lighten($textColor, 25%)
-  .footer
-    padding 1.5rem
-    border-top 1px solid $borderColor
-    text-align center
-    color lighten($textColor, 25%)
 
 @media (max-width: $MQMobile)
-  .home
-    .features
-      flex-direction column
-    .feature
-      max-width 100%
-      padding 0 1.5rem
+  .homepage
+    .content
+      .features
+        flex-direction column
+      .feature
+        max-width 100%
+        padding 0 1.5rem
 
 @media (max-width: $MQMobileNarrow)
-  .home
-    padding-left 1.5rem
-    padding-right 1.5rem
-    .hero
-      img
-        max-height 210px
-        margin 2rem auto 1.2rem
-      h1
-        font-size 2rem
-      h1, .description, .action
+  .homepage
+    .header
+      .description, .action
         margin 1.2rem auto
       .description
         font-size 1.2rem
       .action-button
         font-size 1rem
         padding 0.6rem 1.2rem
+  .content
+    padding-left 1.5rem
+    padding-right 1.5rem
     .feature
       h2
         font-size 1.25rem
