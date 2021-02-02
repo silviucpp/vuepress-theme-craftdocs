@@ -26,7 +26,7 @@
     <div class="content">
       <div class="sdks">
         <div class="sdk" v-for="(sdk, index) in data.sdks.items" :key="index">
-          <a :href="sdk.url">
+          <a :href="sdk.url" :target=sdk.url_target>
             <img v-if="sdk.icon" :src="$withBase(sdk.icon)" :alt="sdk.title">
           </a>
         </div>
