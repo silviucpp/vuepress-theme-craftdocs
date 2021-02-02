@@ -15,7 +15,7 @@
       <div class="products">
         <div class="product" v-for="(item, index) in data.products" :key="index">
           <img v-if="item.icon" :src="$withBase(item.icon)" :alt="item.title">
-          <h2> <a :href="item.url"> {{ item.title }} </a></h2>
+          <h2> <a :href="$withBase(item.url)"> {{ item.title }} </a></h2>
           <p v-html="item.details"></p>
         </div>
       </div>
@@ -27,7 +27,7 @@
       <div class="content">
         <div class="sdks">
           <div class="sdk" v-for="(sdk, index) in data.sdks.items" :key="index">
-            <a :href="sdk.url" :target=sdk.url_target>
+            <a :href="$withBase(sdk.url)" :target=sdk.url_target>
               <img v-if="sdk.icon" :src="$withBase(sdk.icon)" :alt="sdk.title">
             </a>
           </div>
@@ -42,7 +42,7 @@
         <div class="products">
           <div class="product" v-for="(item, index) in data.features.items" :key="index">
             <img class="grayscale" v-if="item.icon" :src="$withBase(item.icon)" :alt="item.title">
-            <h2> <a :href="item.url"> {{ item.title }} </a></h2>
+            <h2> <a :href="$withBase(item.url)"> {{ item.title }} </a></h2>
             <p v-html="item.details"></p>
           </div>
         </div>
