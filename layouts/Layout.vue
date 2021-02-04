@@ -66,7 +66,7 @@ import Sidebar from '../components/Sidebar.vue'
 import SWUpdatePopup from '../components/SWUpdatePopup.vue'
 import { resolveSidebarItems } from '../util'
 
-console.log('using layout');
+//console.log('using layout');
 
 export default {
   components: { Home, Page, Sidebar, Navbar, SWUpdatePopup },
@@ -130,7 +130,7 @@ export default {
   },
 
   mounted () {
-    console.log('mounted layout')
+    //console.log('mounted layout')
     window.addEventListener('scroll', this.onScroll)
 
     // configure progress bar
