@@ -185,7 +185,7 @@ export default {
     .content
       .sdks
         .sdk
-          flex-basis 30%
+          flex-basis 50%
       .products
         flex-direction column
       .product
