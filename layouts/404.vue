@@ -1,10 +1,12 @@
 <template>
   <div class="theme-container" :class="pageClasses">
     <Navbar v-if="shouldShowNavbar" />
-      <div class="mainbox">
-        <div class="err">404</div>
-        <div class="msg">Maybe this page moved? Got deleted?  Never existed in the first place? <p>Let's go <a href="/">home</a> and try from there.</p></div>
-      </div>
+      <div class="homepage">
+        <div class="mainbox">
+          <div class="err">404</div>
+          <div class="msg">Maybe this page moved? Got deleted?  Never existed in the first place? <p>Let's go <a href="/">home</a> and try from there.</p></div>
+        </div>
+      </div>  
   </div>
 </template>
 
@@ -39,13 +41,18 @@ export default {
 <style lang="stylus">
 @import '../styles/config.styl'
 
-body {
+.homepage {
+  position:absolute;
+  top:0px;
+  right:0px;
+  bottom:0px;
+  left:0px;
   background-color: $navbarBackgroundColor;
+  min-height: 40rem;
 }
 
 .mainbox {
   color: #ffffff;
-  margin: auto;
   height: 100%;
   width: 100%;
   position: relative;
@@ -57,7 +64,7 @@ body {
   font-size: 11rem;
   color: $accentColor;
   position:absolute;
-  top: 3rem;
+  top: 10rem;
   width: 100%;
 }
 
@@ -65,7 +72,7 @@ body {
     text-align: center;
     font-size: 1.6rem;
     position:absolute;
-    top: 20rem;
+    top: 30rem;
     left: 10%;
     width: 80%;
 }
