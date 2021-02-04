@@ -4,7 +4,7 @@
 
     <div class="header">
 
-        <h1 class="description">{{$description || '' }}</h1>
+        <h1 class="description" v-if="data.h1">{{data.h1}}</h1>
 
         <p class="action" v-if="data.actionText && data.actionLink">
             <NavLink class="action-button" :item="actionLink"/>
