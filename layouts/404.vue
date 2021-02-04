@@ -2,19 +2,19 @@
   <div class="theme-container" :class="pageClasses">
     <Navbar v-if="shouldShowNavbar" @toggle-sidebar="toggleSidebar" />
 
-   <div class="sidebar-mask" @click="toggleSidebar(false)"></div>
+    <div class="sidebar-mask" @click="toggleSidebar(false)"></div>
 
     <Sidebar :items="sidebarItems" @toggle-sidebar="toggleSidebar">
       <slot name="sidebar-top" slot="top"/>
       <slot name="sidebar-bottom" slot="bottom"/>
     </Sidebar>
 
-      <div class="homepage">
-        <div class="mainbox">
-          <div class="err">404</div>
-          <div class="msg">Maybe this page moved? Got deleted?  Never existed in the first place? <p>Let's go <a href="/">home</a> and try from there.</p></div>
-        </div>
-      </div>  
+    <div class="homepage">
+      <div class="mainbox">
+        <div class="err">404</div>
+        <div class="msg">Maybe this page moved? Got deleted?  Never existed in the first place? <p>Let's go <a href="/">home</a> and try from there.</p></div>
+      </div>
+    </div>
   </div>
 </template>
 
