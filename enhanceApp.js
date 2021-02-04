@@ -4,6 +4,15 @@ import CodeLanguageSwitcher from './components/CodeLanguageSwitcher'
 import { setStorage } from './Storage'
 
 export default ({ Vue, options, router, siteData }) => {
+
+    const withBase = Vue.prototype.$withBase
+    Vue.prototype.$withBase = function (url) {
+        if (url && url.startsWith('!'))
+             return url.slice(1);
+
+        return withBase.call(this, url)
+    }
+
     Vue.component('code-toggle', CodeToggle)
     Vue.component('code-language-switcher', CodeLanguageSwitcher)
 
