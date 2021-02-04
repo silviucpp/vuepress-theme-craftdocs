@@ -9,7 +9,7 @@
       <slot name="sidebar-bottom" slot="bottom"/>
     </Sidebar>
 
-    <div class="homepage">
+    <div class="homepage_not_found">
       <div class="mainbox">
         <div class="err">404</div>
         <div class="msg">Maybe this page moved? Got deleted?  Never existed in the first place? <p>Let's go <a href="/">home</a> and try from there.</p></div>
@@ -106,39 +106,36 @@ methods: {
 <style lang="stylus">
 @import '../styles/config.styl'
 
-.homepage {
-  position:absolute;
-  top:0px;
-  right:0px;
-  bottom:0px;
-  left:0px;
-  background-color: $navbarBackgroundColor;
-  min-height: 40rem;
-}
+.homepage_not_found
+  position absolute
+  top 0px
+  right 0px
+  bottom 0px
+  left 0px
+  background-color $navbarBackgroundColor
+  min-height 40rem
 
-.mainbox {
-  color: #ffffff;
-  height: 100%;
-  width: 100%;
-  position: relative;
-}
+  .mainbox
+    color #ffffff
+    height 100%
+    width 100%
+    position relative
+  
+  .err
+    text-align center
+    font-weight 600
+    font-size 11rem
+    color $accentColor
+    position absolute
+    top 10rem
+    width 100%
 
-.err {
-  text-align: center;
-  font-weight: 600;
-  font-size: 11rem;
-  color: $accentColor;
-  position:absolute;
-  top: 10rem;
-  width: 100%;
-}
+  .msg
+    text-align center
+    font-size 1.6rem
+    position absolute
+    top 30rem
+    left 10%
+    width 80%
 
-.msg {
-    text-align: center;
-    font-size: 1.6rem;
-    position:absolute;
-    top: 30rem;
-    left: 10%;
-    width: 80%;
-}
 </style>
