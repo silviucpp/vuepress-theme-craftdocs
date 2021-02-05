@@ -152,7 +152,7 @@ export default {
         a
           filter grayscale(100%)
           &:hover
-            filter grayscale(0%)
+            filter grayscale(0%) brightness(0.9);
         img
           display block
           margin 1rem auto
