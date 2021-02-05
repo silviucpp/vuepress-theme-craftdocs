@@ -14,8 +14,8 @@
     <div class="content" v-if="data.products && data.products.length">
       <div class="products">
         <div class="product" v-for="(item, index) in data.products" :key="index">
-          <img v-if="item.icon" :src="$withBase(item.icon)" :alt="item.title">
-          <h2> <a :href="$withBase(item.url)"> {{ item.title }} </a></h2>
+          <ImageLink v-if="item.icon" :item="item"/>
+          <h2><Link :item="item"/></h2>
           <p v-html="item.details"></p>
         </div>
       </div>
@@ -27,12 +27,16 @@
       <div class="content">
         <div class="sdks">
           <div class="sdk" v-for="(sdk, index) in data.sdks.items" :key="index">
-            <a :href="$withBase(sdk.url)" :target=sdk.url_target>
-              <img v-if="sdk.icon" :src="$withBase(sdk.icon)" :alt="sdk.title">
-            </a>
+            <ImageLink v-if="sdk.icon" :item="sdk"/> 
           </div>
         </div>
       </div>
+    </div>
+
+    <div class=" features_container" v-if="data.sdks && data.sdks.items.length && data.features && data.features.items.length">
+      <div class="content" >
+        <div style=" border-bottom: 1px solid #EAECEF"/>
+      </div>  
     </div>
 
     <div class="fullpage features_container" v-if="data.features && data.features.items.length">
@@ -41,8 +45,8 @@
       <div class="content" >
         <div class="products">
           <div class="product" v-for="(item, index) in data.features.items" :key="index">
-            <img class="grayscale" v-if="item.icon" :src="$withBase(item.icon)" :alt="item.title">
-            <h2> <a :href="$withBase(item.url)"> {{ item.title }} </a></h2>
+            <ImageLink v-if="item.icon" :item="item"/>
+            <h2><Link :item="item"/></h2>
             <p v-html="item.details"></p>
           </div>
         </div>
@@ -54,7 +58,7 @@
     </div>
 
     <div class="fullpage footer_container" v-if="data.footer">
-      <div class="footer"> {{ data.footer }} </div>
+      <div class="footer"> {{ data.footer }}</div>
     </div>
 
   </div>
@@ -63,9 +67,11 @@
 
 <script>
 import NavLink from './NavLink.vue'
+import ImageLink from './ImageLink.vue'
+import Link from './Link.vue'
 
 export default {
-  components: { NavLink },
+  components: { NavLink, ImageLink, Link},
 
   computed: {
     data () {
@@ -98,7 +104,7 @@ export default {
 
   .footer_container
     background-color $footerBackgroundColor
-  
+
   .header
     padding $navbarHeight 1rem 1rem
     background-color $headerBackgroundColor
@@ -163,6 +169,12 @@ export default {
         flex-grow 1
         flex-basis 30%
         max-width 30%
+
+        a
+          filter grayscale(0%)
+          &:hover
+            filter grayscale(100%)
+
         img 
           display block
           margin-left auto

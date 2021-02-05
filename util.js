@@ -1,7 +1,7 @@
 export const hashRE = /#.*$/
 export const extRE = /\.(md|html)$/
 export const endingSlashRE = /\/$/
-export const outboundRE = /^(https?:|mailto:|tel:)/
+export const outboundRE = /^(https?:|mailto:|tel:|!)/
 
 export function normalize (path) {
   return decodeURI(path)
@@ -18,6 +18,10 @@ export function getHash (path) {
 
 export function isExternal (path) {
   return outboundRE.test(path)
+}
+
+export function shouldOpenSameTab (path) {
+  return /^!/.test(path) || isMailto(path) || isTel(path)
 }
 
 export function isMailto (path) {

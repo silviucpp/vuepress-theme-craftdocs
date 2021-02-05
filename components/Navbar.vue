@@ -2,8 +2,8 @@
   <header class="navbar">
     <SidebarButton @toggle-sidebar="$emit('toggle-sidebar')"/>
 
-    <router-link
-      :to="$localePath"
+    <a
+      :href="$withBase($site.themeConfig.logo_action)"
       class="home-link"
     >
       <img
@@ -18,7 +18,7 @@
         v-if="$siteTitle"
         :class="{ 'can-hide': $site.themeConfig.logo }"
       >{{ $siteTitle }}</span>
-    </router-link>
+    </a>
 
     <div
       class="links"
