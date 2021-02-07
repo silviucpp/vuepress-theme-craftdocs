@@ -156,8 +156,11 @@ export default {
         img
           display block
           margin 1rem auto
-          width 35%
+          width 45%
           max-width 10rem
+          filter grayscale(100%)
+          &:hover
+            filter grayscale(0%) brightness(0.9);
 
       .products
         margin 2.5rem auto
@@ -180,6 +183,9 @@ export default {
           margin-left auto
           margin-right auto
           width 30%
+          filter grayscale(0%)
+          &:hover
+            filter grayscale(100%);
         h2
           text-align center
           font-size 1.4rem
