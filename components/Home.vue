@@ -11,6 +11,24 @@
         </p>
     </div>
 
+    <!-- blog -->
+
+    <div class="content" v-if="data.articles && data.articles.length">
+      <div class="articles">
+        <div class="article" v-for="(item, index) in data.articles" :key="index">
+          <ImageLink v-if="item.icon" :item="item"/>
+          <h2><Link :item="item"/></h2>
+          <p v-html="item.details"></p>
+            <p class="tags">
+              <span class="tag" v-for="tag in item.tags">{{tag}}</span>
+              <span class="tag date" v-html="item.date"></span>
+            </p>
+        </div>
+      </div>
+    </div>
+
+  <!-- home page -->
+
     <div class="content" v-if="data.products && data.products.length">
       <div class="products">
         <div class="product" v-for="(item, index) in data.products" :key="index">
@@ -162,6 +180,67 @@ export default {
           &:hover
             filter grayscale(0%) brightness(0.9);
 
+      .articles
+        margin 2.5rem auto
+        display flex
+        flex-wrap wrap
+        align-content stretch
+        justify-content space-evenly
+
+      .article
+        margin 1rem 0.5rem
+        box-shadow: 0 0 2px 1px #f3f5fc;
+        transition: box-shadow .4s ease-in;
+
+        flex-grow 1
+        flex-basis 30%
+        max-width 30%
+        min-width 260px
+
+        .tags
+          text-align left
+          margin 0.5rem
+
+          .tag
+            background-color #F5F5F5
+            padding 0.4rem
+            margin 0.2rem
+            border-radius: 5px;
+            top: 50%;
+
+          .date
+            background-color #1369AD
+            font-weight bold
+            color white
+
+        a
+          font-weight bold
+          filter grayscale(0%)
+          &:hover
+            filter grayscale(100%)
+
+        img
+          display block
+          margin-left auto
+          margin-right auto
+          width 100%
+          max-width: 300px
+
+          filter grayscale(0%)
+          &:hover
+            filter grayscale(100%);
+        h2
+          text-align center
+          font-size 0.9rem
+          font-weight bold
+          border-bottom none
+          padding-bottom 0
+          color lighten($textColor, 10%)
+        p
+          font-size 0.875rem
+          text-align center
+          color lighten($textColor, 25%)
+
       .products
         margin 2.5rem auto
         display flex
@@ -207,6 +286,12 @@ export default {
       .products
         flex-direction column
       .product
+        max-width 100%
+        padding 0 1.5rem
+
+      .articles
+        flex-direction column
+      .article
         max-width 100%
         padding 0 1.5rem
 
