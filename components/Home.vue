@@ -195,7 +195,7 @@ export default {
         flex-grow 1
         flex-basis 30%
         max-width 30%
-        min-width 260px
+        min-width 270px
 
         .tags
           text-align left
