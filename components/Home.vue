@@ -29,9 +29,9 @@
 
   <!-- home page -->
 
-    <div class="content" v-if="data.products && data.products.length">
+    <div class="content" style="max-width: 1300px" v-if="data.products && data.products.length">
       <div class="products">
-        <div class="product" v-for="(item, index) in data.products" :key="index">
+        <div class="product_4row" v-for="(item, index) in data.products" :key="index">
           <ImageLink v-if="item.icon" :item="item"/>
           <h2><Link :item="item"/></h2>
           <p v-html="item.details"></p>
@@ -51,7 +51,7 @@
       </div>
     </div>
 
-    <div class=" features_container" v-if="data.sdks && data.sdks.items.length && data.features && data.features.items.length">
+    <div class="features_container" v-if="data.sdks && data.sdks.items.length && data.features && data.features.items.length">
       <div class="content" >
         <div style=" border-bottom: 1px solid #EAECEF"/>
       </div>  
@@ -252,6 +252,11 @@ export default {
         flex-basis 30%
         max-width 30%
 
+      .product_4row
+        flex-basis 24%
+        max-width 24%
+
+      .product, .product_4row
         a
           filter grayscale(0%)
           &:hover
@@ -285,7 +290,7 @@ export default {
           flex-basis 50%
       .products
         flex-direction column
-      .product
+      .product, .product_4row
         max-width 100%
         padding 0 1.5rem
 
@@ -308,7 +313,7 @@ export default {
   .content
     padding-left 1.5rem
     padding-right 1.5rem
-    .product
+    .product, .product_4row
       h2
         font-size 1.25rem
 </style>
