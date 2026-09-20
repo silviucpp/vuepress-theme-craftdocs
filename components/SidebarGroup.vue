@@ -4,6 +4,7 @@
     :class="{ first, collapsable }"
   >
     <p
+      v-if="item.title"
       class="sidebar-heading"
       :class="{ open }"
       @click="$emit('toggle')"
@@ -42,9 +43,11 @@ export default {
 </script>
 
 <style lang="stylus">
+@import '../styles/config.styl'
+
 .sidebar-group
   &:not(.first)
-    margin-top 1em
+    margin-top 1.4em
   .sidebar-group
     padding-left 0.5em
   &:not(.collapsable)
@@ -53,17 +56,18 @@ export default {
       color inherit
 
 .sidebar-heading
-  color #999
+  color $mutedTextColor
   transition color .15s ease
   cursor pointer
-  font-size 1.1em
-  font-weight bold
-  // text-transform uppercase
+  font-size 0.78em
+  font-weight 700
+  text-transform uppercase
+  letter-spacing 0.06em
   padding 0 1.5rem
   margin-top 0
-  margin-bottom 0.5rem
+  margin-bottom 0.6rem
   &.open, &:hover
-    color inherit
+    color $textColor
   .arrow
     position relative
     top -0.12em

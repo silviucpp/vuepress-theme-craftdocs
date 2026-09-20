@@ -1,38 +1,49 @@
+@require './config'
+
 .custom-block
+  border-radius $radiusSm
+  overflow hidden
+
   .custom-block-title
-    font-weight 600
-    margin-bottom -0.4rem
+    font-weight 700
+    margin-bottom 0.35rem
+    font-size 0.95em
+
   &.tip, &.warning, &.danger
-    padding .1rem 1.5rem
-    border-left-width .5rem
+    padding 0.9rem 1.5rem
+    border-left-width 0.3rem
     border-left-style solid
-    margin 1rem 0
+    margin 1.25rem 0
+
   &.tip
-    background-color #f3f5f7
-    border-color #42b983
+    background-color rgba($accentColor, 0.07)
+    border-color $accentColor
+
   &.warning
-    background-color rgba(255,229,100,.3)
-    border-color darken(#ffe564, 35%)
-    color darken(#ffe564, 70%)
+    background-color rgba(255, 176, 32, 0.12)
+    border-color darken(#ffb020, 15%)
+    color darken(#ffb020, 55%)
     .custom-block-title
-      color darken(#ffe564, 50%)
+      color darken(#ffb020, 40%)
     a
       color $textColor
+
   &.danger
-    background-color #ffe6e6
-    border-color darken(red, 20%)
-    color darken(red, 70%)
+    background-color rgba(220, 38, 38, 0.08)
+    border-color darken(#dc2626, 5%)
+    color darken(#dc2626, 25%)
     .custom-block-title
-      color darken(red, 40%)
+      color darken(#dc2626, 15%)
     a
       color $textColor
+
   &.details
     display block
     position relative
-    border-radius 2px
+    border-radius $radius
     margin 1.6em 0
-    padding 1.6em
-    background-color #eee
+    padding 1.4em 1.6em
+    background-color $blockColor
     h4
       margin-top 0
     figure, p
@@ -42,3 +53,4 @@
     summary
       outline none
       cursor pointer
+      font-weight 600

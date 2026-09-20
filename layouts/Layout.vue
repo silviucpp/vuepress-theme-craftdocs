@@ -10,6 +10,11 @@
       @toggle-sidebar="toggleSidebar"
     />
 
+    <ProductTabs
+      v-if="hasProductNav"
+      :items="$site.themeConfig.apiReferenceNav"
+    />
+
     <div
       class="sidebar-mask"
       @click="toggleSidebar(false)"
@@ -62,6 +67,7 @@ import nprogress from 'nprogress'
 import Home from '../components/Home.vue'
 import Navbar from '../components/Navbar.vue'
 import Page from '../components/Page.vue'
+import ProductTabs from '../components/ProductTabs.vue'
 import Sidebar from '../components/Sidebar.vue'
 import SWUpdatePopup from '../components/SWUpdatePopup.vue'
 import { resolveSidebarItems } from '../util'
@@ -69,7 +75,7 @@ import { resolveSidebarItems } from '../util'
 //console.log('using layout');
 
 export default {
-  components: { Home, Page, Sidebar, Navbar, SWUpdatePopup },
+  components: { Home, Page, ProductTabs, Sidebar, Navbar, SWUpdatePopup },
 
   data () {
     return {
@@ -115,6 +121,11 @@ export default {
       )
     },
 
+    hasProductNav () {
+      const items = this.$site.themeConfig.apiReferenceNav
+      return !!(items && items.length && this.$route.path.indexOf('/api-reference/') !== -1)
+    },
+
     pageClasses () {
       const userPageClass = this.$page.frontmatter.pageClass
       return [
@@ -122,7 +133,8 @@ export default {
           'no-navbar': !this.shouldShowNavbar,
           'sidebar-open': this.isSidebarOpen,
           'no-sidebar': !this.shouldShowSidebar,
-          'split': this.$page.frontmatter.split
+          'split': this.$page.frontmatter.split,
+          'has-product-nav': this.hasProductNav
         },
         userPageClass
       ]
@@ -183,5 +195,5 @@ export default {
 }
 </script>
 
-<style src="prismjs/themes/prism-solarizedlight.css"></style>
+<style src="prismjs/themes/prism-tomorrow.css"></style>
 <style src="../styles/index.styl" lang="stylus"></style>

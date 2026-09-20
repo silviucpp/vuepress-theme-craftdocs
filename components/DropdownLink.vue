@@ -90,6 +90,10 @@ export default {
       margin-top -1px
       margin-left 0.4rem
   .nav-dropdown
+    // The panel has its own opaque white background (set below), so its
+    // text can't rely on inheriting the navbar's color: on a dark navbar
+    // (like this site's) that inherited color is white-on-white here.
+    color $textColor
     .dropdown-item
       color inherit
       line-height 1.7rem

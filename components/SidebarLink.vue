@@ -63,30 +63,32 @@ function renderChildren (h, children, path, route, maxDepth, depth = 1) {
 @import '../styles/config.styl'
 
 .sidebar .sidebar-sub-headers
-  padding-left 1rem
-  font-size 0.95em
+  padding-left 0.9rem
+  font-size 0.93em
 
 a.sidebar-link
   font-weight 400
   display inline-block
-  color $textColor
-  border-left 0.25rem solid transparent
-  padding 0.35rem 1rem 0.35rem 1.25rem
+  color $mutedTextColor
+  padding 0.4rem 1rem 0.4rem 1.5rem
+  margin 0.05rem 0.75rem 0.05rem 0
   line-height 1.4
-  width: 100%
+  width: calc(100% - 0.75rem)
   box-sizing: border-box
+  border-radius 0 $radiusSm $radiusSm 0
+  transition background-color .12s ease, color .12s ease
   &:hover
-    color $accentColor
+    color $textColor
+    background-color rgba(15, 23, 42, 0.035)
   &.active
     font-weight 600
     color $accentColor
-    border-left-color $accentColor
+    background-color rgba($accentColor, 0.09)
   .sidebar-group &
     padding-left 2rem
   .sidebar-sub-headers &
-    padding-top 0.25rem
-    padding-bottom 0.25rem
-    border-left none
+    padding-top 0.3rem
+    padding-bottom 0.3rem
     &.active
       font-weight 500
 </style>

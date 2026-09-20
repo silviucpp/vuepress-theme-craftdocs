@@ -1,24 +1,52 @@
 // colors
-$sidebarColor = #fbfcfd;
-$blockColor = #f1f5f8;
-$accentColor = #da5a47;
-$textColor = #2c3e50;
-$borderColor = #eaecef;
-$codeBgColor = $blockColor;
-$arrowBgColor = #ccc;
+$sidebarColor = #fbfcfe;
+$blockColor = #f1f4f9;
+$accentColor = #2f9e13;
+$textColor = #1c2333;
+$mutedTextColor = #626b7f;
+$borderColor = #e6e9f0;
+$arrowBgColor = #b6bccb;
+
+// dark, modern code blocks (GitHub-dark inspired, independent of $blockColor
+// so it reads as a deliberate "code surface" rather than a re-tinted panel)
+$codeBgColor = #0d1117;
+$codeBorderColor = #232a37;
+$codeTabBgColor = #161b22;
+$codeMutedColor = #8b95a7;
+
 // layout
 $navbarHeight = 4.2rem;
 $sidebarWidth = 16rem;
-$contentWidth = 740px;
+$contentWidth = 760px;
 $homePageWidth = 960px;
+
+// height of the persistent API-reference product-switcher tab strip
+// (components/ProductTabs.vue), shown under the navbar on /api-reference/*
+// pages only. Kept as a variable so the layout-offset math in override.styl
+// has a single source of truth.
+$productNavHeight = 2.75rem;
+
 // responsive breakpoints
 $MQNarrow = 959px;
 $MQMobile = 719px;
 $MQMobileNarrow = 419px;
+
 // code
 $lineNumbersWrapperWidth = 3.5rem;
 $codeLang = js ts html md vue css sass scss less stylus go java c sh yaml py;
 $contentClass = '.content__default';
+
+// type
+$fontSans = 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+$fontMono = 'SFMono-Regular', 'JetBrains Mono', source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+
+// surface language (radius + elevation) used across cards, blocks, panels
+$radiusSm = 6px;
+$radius = 10px;
+$radiusLg = 18px;
+$shadowSm = 0 1px 2px rgba(15, 23, 42, 0.06), 0 1px 1px rgba(15, 23, 42, 0.04);
+$shadowMd = 0 6px 16px rgba(15, 23, 42, 0.08), 0 2px 6px rgba(15, 23, 42, 0.05);
+$shadowLg = 0 20px 45px rgba(15, 23, 42, 0.14), 0 6px 16px rgba(15, 23, 42, 0.08);
 
 $sidebarButtonColor = $textColor;
 $navbarBackgroundColor = #fff;

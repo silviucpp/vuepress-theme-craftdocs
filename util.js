@@ -161,8 +161,16 @@ function resolveHeaders (page) {
     }
   })
 
-  if(groups.length == 0)
+  if(groups.length == 0) {
+    // No explicit sidebarGroups tags on this page, so the sidebar is a
+    // single flat list. Falling back to page.title as the group heading
+    // shows the full SEO <title> (e.g. "SMS API - Send and Track SMS
+    // Messages | CheckMobi") above the links, which is noise when the page
+    // already says what it is. Leave it untitled instead; SidebarGroup.vue
+    // skips rendering the heading element when title is falsy.
+    default_group.name = null
     groups.push(default_group)
+  }
 
   return groups.map(g => ({
     type: 'group',

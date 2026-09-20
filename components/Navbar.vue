@@ -92,7 +92,7 @@ function css (el, property) {
 @import '../styles/config.styl'
 
 $navbar-vertical-padding = 0.7rem
-$navbar-horizontal-padding = 1.5rem
+$navbar-horizontal-padding = 1.75rem
 
 .navbar
   padding $navbar-vertical-padding $navbar-horizontal-padding
@@ -101,14 +101,18 @@ $navbar-horizontal-padding = 1.5rem
   a, span, img
     display inline-block
   .logo
-    height $navbarHeight - 1.4rem
-    min-width $navbarHeight - 1.4rem
-    margin-right 0.8rem
+    height $navbarHeight - 1.6rem
+    min-width $navbarHeight - 1.6rem
+    margin-right 0.7rem
     vertical-align top
+    transition transform .15s ease
+  .home-link:hover .logo
+    transform scale(1.04)
   .site-name
-    font-size 1.3rem
-    font-weight 600
-    color $textColor
+    font-size 1.25rem
+    font-weight 700
+    letter-spacing -0.01em
+    color $navbarTextColor
     position relative
   .links
     padding-left 1.5rem
@@ -116,11 +120,12 @@ $navbar-horizontal-padding = 1.5rem
     background-color $navbarBackgroundColor
     color $navbarTextColor
     white-space nowrap
-    font-size 0.9rem
+    font-size 0.92rem
     position absolute
     right $navbar-horizontal-padding
     top $navbar-vertical-padding
     display flex
+    align-items center
     .search-box
       flex: 0 0 auto
       vertical-align top

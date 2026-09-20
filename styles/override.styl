@@ -23,7 +23,7 @@ toRgba(color) {
     padding: 1.25rem 1.5rem;
     line-height: 1.7;
     background: $blockColor;
-    border-radius: 6px;
+    border-radius: $radius;
 
     dt, dd {
       margin: 0.25rem 0 0;
@@ -49,27 +49,24 @@ toRgba(color) {
     background-color: $blockColor;
   }
 
-  code {
-    background: toRgba($blockColor);
-  }
-
   pre, pre[class*='language-'] {
     white-space: pre;
   }
 
   .highlighted-line {
-    background-color: darken($blockColor, 5%);
+    background-color: rgba(15, 23, 42, 0.06);
   }
 
   .code-toggle {
-    margin: 0.85rem 0;
+    margin: 1.1rem 0;
 
     ul.code-language-switcher {
-      border-radius: 6px 6px 0 0;
+      border-radius: $radius $radius 0 0;
     }
 
     div[class*='language-'] {
-      border-radius: 0 0 6px 6px;
+      border-radius: 0 0 $radius $radius;
+      box-shadow: none;
 
       &:before {
         display: none;
@@ -84,7 +81,7 @@ toRgba(color) {
   }
 
   a.outbound-link {
-    color: lighten($textColor, 25%);
+    color: $mutedTextColor;
     margin-right: 0.25rem;
   }
 
@@ -96,10 +93,11 @@ toRgba(color) {
 
   .custom-block {
     div[class*='language-'] {
-      background: none;
+      background: $codeTabBgColor;
       border-radius: 0;
       margin-left: -24px;
       margin-right: -24px;
+      box-shadow: none;
 
       .highlight-lines {
         padding-top: 0;
@@ -118,37 +116,43 @@ ul.code-language-switcher {
   box-sizing: border-box;
   display: flex;
   flex-direction: row;
+  align-items: center;
   margin: 0;
   padding: 0.7rem 1.5rem;
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.4;
   z-index: 2;
-  background: darken($blockColor, 5%);
+  background: $codeTabBgColor;
+  gap: 0.35rem;
 
   li {
-    margin: 0 5px 0 0;
+    margin: 0;
     padding: 0;
     list-style-type: none;
 
     a {
       display: block;
-      padding: 0 0.625rem;
+      padding: 0 0.85rem;
       line-height: 2.2rem;
       cursor: pointer;
-      border-radius: 4px;
-      color: lighten($textColor, 20%);
+      border-radius: $radiusSm;
+      font-weight: 500;
+      color: $codeMutedColor;
+      transition: background-color .12s ease, color .12s ease;
 
       &:hover {
         text-decoration: none !important;
 
         &:not(.active) {
-          background: rgba(255, 255, 255, 0.5);
+          background: rgba(15, 23, 42, 0.05);
+          color: $textColor;
         }
       }
 
       &.active {
         cursor: default;
-        background-color: #fff;
+        background-color: $codeBgColor;
+        color: $textColor;
       }
     }
   }
@@ -165,10 +169,16 @@ ul.code-language-switcher {
 }
 
 @media (min-width: $MQNarrow + 1) {
+  // Text (left) / code (right) split ratio for the API-reference "split"
+  // layout — was an even 50/50; narrowed the code column to give the
+  // documentation text more room.
+  $splitTextFrac = 0.58
+  $splitCodeFrac = 0.42
+
   .theme-container.split {
     .page {
       position: relative;
-      width: 'calc(50% - %s)' % ($sidebarWidth / 2);
+      width: 'calc(58% - %s)' % ($sidebarWidth * $splitTextFrac);
 
       &:after {
         display: block;
@@ -176,8 +186,8 @@ ul.code-language-switcher {
         top: 0;
         right: 0;
         bottom: 0;
-        width: 'calc(50% - %s)' % ($sidebarWidth / 2);
-        background: $blockColor;
+        width: 'calc(42% - %s)' % ($sidebarWidth * $splitCodeFrac);
+        background: $codeBgColor;
         content: '.';
         font-size: 0;
         box-sizing: border-box;
@@ -185,7 +195,7 @@ ul.code-language-switcher {
 
       & > ul.code-language-switcher {
         right: 0;
-        width: 'calc(50% - %s)' % ($sidebarWidth / 2);
+        width: 'calc(42% - %s)' % ($sidebarWidth * $splitCodeFrac);
       }
 
       .content__default {
@@ -193,19 +203,22 @@ ul.code-language-switcher {
 
         .split {
           margin: 0 -1.5rem;
-          width: calc(200% + 6rem);
+          width: calc(172.41% + 6rem);
           display: flex;
           flex-direction: row;
           box-sizing: border-box;
 
           & > div {
             z-index: 1;
-            width: 50%;
+            width: 58%;
             padding-left: 1.5rem;
             padding-right: 1.5rem;
             box-sizing: border-box;
 
             &.right {
+              width: 42%;
+              color: $textColor;
+
               pre, pre[class*='language-'] {
                 margin-left: -1.5rem;
                 margin-right: -1.5rem;
@@ -255,12 +268,26 @@ ul.code-language-switcher {
 
       pre, pre[class*='language-'] {
         margin: 1em 0;
-        border-radius: 6px;
+        border-radius: $radius;
       }
 
       h1, h2, h3, h4, h5, h6 {
         margin-top: 0.5rem - $navbarHeight - $navbarHeight;
         padding-top: ($navbarHeight + $navbarHeight + 1rem);
+      }
+    }
+  }
+
+  // same narrow-split doubled clearance as above, plus the product-tabs strip
+  .theme-container.has-product-nav.split {
+    .page {
+      .content__default > *:first-child {
+        margin-top: ($navbarHeight * 2 + $productNavHeight);
+      }
+
+      h1, h2, h3, h4, h5, h6 {
+        margin-top: (0.5rem - $navbarHeight - $navbarHeight - $productNavHeight);
+        padding-top: ($navbarHeight + $navbarHeight + $productNavHeight + 1rem);
       }
     }
   }
@@ -289,15 +316,57 @@ ul.code-language-switcher {
   }
 }
 
+// Layout offsets for pages showing the persistent product-switcher tab strip
+// (components/ProductTabs.vue, fixed under the navbar on /api-reference/*
+// pages). The strip adds $productNavHeight of fixed-position chrome above
+// the content, so every navbarHeight-based "clear the fixed header" hack
+// used elsewhere (scroll-margin-top, the first-heading offset trick, the
+// split layout's pinned code-language switcher) needs that height added
+// back in — but only on pages that actually show the strip. Scoped under
+// .theme-container.has-product-nav so the rest of the site is untouched,
+// and kept outside the $MQMobile off-canvas-sidebar breakpoint since that
+// one manages its own top offset independently.
+.theme-container.has-product-nav {
+  .page {
+    padding-top: ($navbarHeight + $productNavHeight);
+  }
+
+  .content__default:not(.custom) {
+    > *:first-child {
+      margin-top: ($navbarHeight + $productNavHeight);
+    }
+
+    > h1, > h2, > h3, > h4, > h5, > h6 {
+      margin-top: (0.5rem - $navbarHeight - $productNavHeight);
+      padding-top: ($navbarHeight + $productNavHeight + 1rem);
+
+      &:first-child {
+        margin-top: -5rem;
+      }
+    }
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    scroll-margin-top: ($navbarHeight + $productNavHeight + 1rem);
+  }
+
+  &.split .page > ul.code-language-switcher {
+    top: ($navbarHeight + $productNavHeight);
+  }
+}
+
 div.table {
-  margin: 1rem 0;
-  border: 1px solid #dfe2e5;
+  margin: 1.25rem 0;
+  border: 1px solid $borderColor;
+  border-radius: $radius;
+  overflow: hidden;
   overflow-x: auto;
 
   table {
     display: table;
     margin: 0;
     border: none;
+    border-radius: 0;
     width: 100%;
 
     thead, tbody:first-child {
