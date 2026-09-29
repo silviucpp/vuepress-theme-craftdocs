@@ -67,15 +67,16 @@ function renderChildren (h, children, path, route, maxDepth, depth = 1) {
   font-size 0.93em
 
 a.sidebar-link
+  position relative
   font-weight 400
   display inline-block
   color $mutedTextColor
   padding 0.4rem 1rem 0.4rem 1.5rem
-  margin 0.05rem 0.75rem 0.05rem 0
+  margin 0.05rem 0.75rem
   line-height 1.4
-  width: calc(100% - 0.75rem)
+  width: calc(100% - 1.5rem)
   box-sizing: border-box
-  border-radius 0 $radiusSm $radiusSm 0
+  border-radius $radiusSm
   transition background-color .12s ease, color .12s ease
   &:hover
     color $textColor
@@ -86,9 +87,36 @@ a.sidebar-link
     background-color rgba($accentColor, 0.09)
   .sidebar-group &
     padding-left 2rem
+  // Sub-headers are one level deeper than the page links above them, so
+  // repeating the same edge-to-edge filled pill on hover/active made the
+  // two levels indistinguishable at a glance. Instead they get a quieter
+  // left accent bar — same idea as the account app's sidenav, which uses
+  // a filled background for its top-level items and a thin accent bar for
+  // nested ones.
   .sidebar-sub-headers &
     padding-top 0.3rem
     padding-bottom 0.3rem
+    border-radius 0
+    &:hover
+      background-color transparent
+      color $textColor
+      &::before
+        opacity 1
     &.active
       font-weight 500
+      background-color transparent
+      &::before
+        opacity 1
+        background-color $accentColor
+    &::before
+      content ''
+      position absolute
+      left 0
+      top 0.2rem
+      bottom 0.2rem
+      width 2px
+      border-radius $radiusSm
+      background-color $mutedTextColor
+      opacity 0
+      transition opacity .12s ease, background-color .12s ease
 </style>
