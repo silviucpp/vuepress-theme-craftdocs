@@ -75,6 +75,14 @@ export default {
         if (this.getPageLocalePath(p) !== localePath) {
           continue
         }
+        // A page can opt out of search indexing via `search: false` in its
+        // own frontmatter -- unlike `patterns` in .vuepress/config.js
+        // (which removes a page from the build entirely), this keeps the
+        // page itself fully built and reachable by direct link, just
+        // absent from suggestions here.
+        if (p.frontmatter && p.frontmatter.search === false) {
+          continue
+        }
         if (matches(p)) {
           res.push(p)
         } else if (p.headers) {
