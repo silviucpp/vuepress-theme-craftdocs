@@ -257,6 +257,25 @@ module.exports = (md) => {
         return tokens;
     }
 
+    // Sidebar group marker: a single `::: group Some Title` line. It renders
+    // nothing; index.js reads the same lines (from the page source) to build
+    // the sidebar groups. This rule only exists so the line is consumed and
+    // does not show up in the page as a paragraph.
+    md.block.ruler.before('paragraph', 'group_marker', (state, startLine, endLine, silent) => {
+        const start = state.bMarks[startLine] + state.tShift[startLine]
+        const max = state.eMarks[startLine]
+        if (state.sCount[startLine] - state.blkIndent >= 4) {
+            return false
+        }
+        if (!/^:::[ \t]+group[ \t]+\S/.test(state.src.slice(start, max))) {
+            return false
+        }
+        if (!silent) {
+            state.line = startLine + 1
+        }
+        return true
+    }, { alt: ['paragraph'] })
+
     md.use(container, 'code', {
         render(tokens, idx) {
             return '';
