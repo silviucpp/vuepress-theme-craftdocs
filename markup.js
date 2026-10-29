@@ -246,11 +246,19 @@ function closeBlock(level) {
 }
 
 module.exports = (md) => {
+    // keep `{{ }}` in inline code from being compiled by Vue
+    md.renderer.rules.code_inline = (tokens, idx, options, env, self) => {
+        const token = tokens[idx]
+        return '<code v-pre' + self.renderAttrs(token) + '>' + md.utils.escapeHtml(token.content) + '</code>'
+    }
+
     // override parse()
     const parse = md.parse
     md.parse = (...args) => {
         const tokens = parse.call(md, ...args)
-        vPres(tokens);
+        // inline code is protected with v-pre on the <code> element itself (see
+        // below), not by wrapping the whole paragraph: a v-pre paragraph would
+        // stop Vue from compiling the links inside it into router links
         tables(tokens);
         codeToggles(tokens);
         split(tokens);
