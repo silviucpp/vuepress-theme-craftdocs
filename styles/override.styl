@@ -200,6 +200,10 @@ ul.code-language-switcher {
 
       .content__default {
         margin-right: 0;
+        // The default 760px cap, with the column pinned to the code panel,
+        // left a big empty gap next to the sidebar on wide screens. Let the
+        // text column fill the space (up to a readable maximum).
+        max-width: 1000px;
 
         .split {
           margin: 0 -1.5rem;
