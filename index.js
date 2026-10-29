@@ -17,6 +17,7 @@ module.exports = (options, ctx) => {
       })
 
       const groups = {}
+      let firstTitle = null
       let pending = null
       let inFence = false
       src.split(/\r?\n/).forEach(line => {
@@ -28,6 +29,7 @@ module.exports = (options, ctx) => {
         let m = /^:::[ \t]+group[ \t]+(.+?)[ \t]*$/.exec(line)
         if (m) {
           pending = m[1]
+          if (firstTitle === null) firstTitle = m[1]
           return
         }
         m = /^##[ \t]+(.+?)[ \t#]*$/.exec(line)
@@ -39,7 +41,8 @@ module.exports = (options, ctx) => {
       })
 
       $page.frontmatter = Object.assign({}, $page.frontmatter, {
-        sidebarGroups: Object.assign({}, groups, $page.frontmatter.sidebarGroups || {})
+        sidebarGroups: Object.assign({}, groups, $page.frontmatter.sidebarGroups || {}),
+        sidebarGroupTitle: firstTitle
       })
     }
   }

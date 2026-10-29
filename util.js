@@ -119,6 +119,14 @@ export function resolveSidebarItems (page, route, site, localePath) {
     ? themeConfig.locales[localePath] || themeConfig
     : themeConfig
 
+  // A page that belongs to a themeConfig.pageSets entry shows the sidebar of
+  // the whole set (one link per page, the current page expanded with its
+  // headings) instead of just its own headings.
+  const pageSet = resolvePageSet(page, site)
+  if (pageSet) {
+    return pageSet
+  }
+
   const pageSidebarConfig = page.frontmatter.sidebar || localeConfig.sidebar || themeConfig.sidebar
   if (pageSidebarConfig === 'auto') {
     return resolveHeaders(page)
@@ -133,6 +141,59 @@ export function resolveSidebarItems (page, route, site, localePath) {
       ? config.map(item => resolveItem(item, pages, base))
       : []
   }
+}
+
+// themeConfig.pageSets is a list of ordered page-path lists, e.g.
+//   pageSets: [['/api-reference/foo/', '/api-reference/foo/bar/']]
+// Each page becomes one sidebar group, titled by its first `::: group Title`
+// marker (frontmatter.sidebarGroupTitle, set by index.js) and listing all of
+// its headings, so the whole set is visible in the menu from every page.
+function findPageSet (page, site) {
+  const sets = site.themeConfig.pageSets || []
+  const current = normalize(page.path)
+  return sets.find(s => s.some(p => normalize(p) === current)) || null
+}
+
+function resolvePageSet (page, site) {
+  const set = findPageSet(page, site)
+  if (!set) {
+    return null
+  }
+  return set.map(path => {
+    const p = resolvePage(site.pages, path)
+    const label = p.frontmatter && p.frontmatter.sidebarGroupTitle
+    return {
+      type: 'group',
+      collapsable: false,
+      title: label || p.title,
+      children: groupHeaders(p.headers || []).map(h => ({
+        type: 'auto',
+        title: h.title,
+        basePath: p.path,
+        path: p.path + '#' + h.slug,
+        children: h.children || []
+      }))
+    }
+  })
+}
+
+// Previous (offset -1) / next (offset 1) page of the set the page belongs to.
+// Returns undefined when the page is not in a set (callers then fall back to
+// the default behaviour), null when it is but has no neighbour in that
+// direction, otherwise the neighbouring page.
+export function resolveSetNeighbor (page, site, offset) {
+  const set = findPageSet(page, site)
+  if (!set) {
+    return undefined
+  }
+  const current = normalize(page.path)
+  const path = set[set.findIndex(p => normalize(p) === current) + offset]
+  if (!path) {
+    return null
+  }
+  const p = resolvePage(site.pages, path)
+  const label = p.frontmatter && p.frontmatter.sidebarGroupTitle
+  return label ? Object.assign(p, { title: label }) : p
 }
 
 function resolveHeaders (page) {

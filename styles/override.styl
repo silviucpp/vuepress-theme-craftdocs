@@ -198,6 +198,13 @@ ul.code-language-switcher {
         width: 'calc(42% - %s)' % ($sidebarWidth * $splitCodeFrac);
       }
 
+      // the footer blocks use the same width/alignment as the content column,
+      // otherwise their top lines are narrower than the headings' lines
+      .page-nav, .page-edit {
+        margin-right: 0;
+        max-width: 1000px;
+      }
+
       .content__default {
         margin-right: 0;
         // The default 760px cap, with the column pinned to the code panel,

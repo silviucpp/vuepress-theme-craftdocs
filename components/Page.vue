@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import { resolvePage, normalize, outboundRE, endingSlashRE } from "../util";
+import { resolvePage, resolveSetNeighbor, normalize, outboundRE, endingSlashRE } from "../util";
 
 export default {
   props: ["sidebarItems"],
@@ -64,6 +64,10 @@ export default {
       } else if (prev) {
         return resolvePage(this.$site.pages, prev, this.$route.path);
       } else {
+        const neighbor = resolveSetNeighbor(this.$page, this.$site, -1);
+        if (neighbor !== undefined) {
+          return neighbor || undefined;
+        }
         return resolvePrev(this.$page, this.sidebarItems);
       }
     },
@@ -75,6 +79,10 @@ export default {
       } else if (next) {
         return resolvePage(this.$site.pages, next, this.$route.path);
       } else {
+        const neighbor = resolveSetNeighbor(this.$page, this.$site, 1);
+        if (neighbor !== undefined) {
+          return neighbor || undefined;
+        }
         return resolveNext(this.$page, this.sidebarItems);
       }
     },
@@ -207,6 +215,15 @@ function find(page, items, offset) {
 
   .next {
     float: right;
+  }
+
+  // gap between the arrows and the link text
+  .prev a {
+    margin-left: 0.4rem;
+  }
+
+  .next a {
+    margin-right: 0.4rem;
   }
 }
 
