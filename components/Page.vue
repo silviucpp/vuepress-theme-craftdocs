@@ -1,6 +1,7 @@
 <template>
   <div class="page">
     <code-language-switcher v-if="$page.frontmatter.split && $page.frontmatter.code" />
+    <page-toc v-if="$page.frontmatter.split && $page.frontmatter.toc" />
     <slot name="top" />
 
     <Content :custom="false" />
@@ -36,8 +37,11 @@
 
 <script>
 import { resolvePage, resolveSetNeighbor, normalize, outboundRE, endingSlashRE } from "../util";
+import PageToc from "./PageToc.vue";
 
 export default {
+  components: { PageToc },
+
   props: ["sidebarItems"],
 
   computed: {

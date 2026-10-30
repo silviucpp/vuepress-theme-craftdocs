@@ -168,6 +168,9 @@ function resolvePageSet (page, site) {
       title: label || p.title,
       children: groupHeaders(p.headers || []).map(h => ({
         type: 'auto',
+        inSet: true, // the h2 is already a top level item, see SidebarLink
+        // each page of the set decides how deep its own group goes
+        sidebarDepth: p.frontmatter ? p.frontmatter.sidebarDepth : undefined,
         title: h.title,
         basePath: p.path,
         path: p.path + '#' + h.slug,

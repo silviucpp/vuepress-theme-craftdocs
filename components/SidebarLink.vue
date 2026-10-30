@@ -19,10 +19,13 @@ export default {
     const configDepth = $page.frontmatter.sidebarDepth != null
       ? $page.frontmatter.sidebarDepth
       : $site.themeConfig.sidebarDepth
-    const maxDepth = configDepth == null ? 1 : configDepth
+    // in a page set every group follows the sidebarDepth of its own page
+    const ownDepth = item.inSet && item.sidebarDepth != null ? item.sidebarDepth : configDepth
+    const maxDepth = ownDepth == null ? 1 : ownDepth
     const displayAllHeaders = !!$site.themeConfig.displayAllHeaders
     if (item.type === 'auto') {
-      return [link, renderChildren(h, item.children, item.basePath, $route, maxDepth)]
+      // in a page set the h2 items are the first level, so their children (h3) are level 2
+      return [link, renderChildren(h, item.children, item.basePath, $route, maxDepth, item.inSet ? 2 : 1)]
     } else if ((active || displayAllHeaders) && item.headers && !hashRE.test(item.path)) {
       const children = groupHeaders(item.headers)
       return [link, renderChildren(h, children, item.path, $route, maxDepth)]

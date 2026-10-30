@@ -134,6 +134,7 @@ export default {
           'sidebar-open': this.isSidebarOpen,
           'no-sidebar': !this.shouldShowSidebar,
           'split': this.$page.frontmatter.split,
+          'has-toc': this.$page.frontmatter.toc,
           'has-product-nav': this.hasProductNav
         },
         userPageClass
