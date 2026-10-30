@@ -133,7 +133,8 @@ export default {
           'no-navbar': !this.shouldShowNavbar,
           'sidebar-open': this.isSidebarOpen,
           'no-sidebar': !this.shouldShowSidebar,
-          'split': this.$page.frontmatter.split,
+          // the right column is either the code section or the table of contents
+          'split': !!this.$page.frontmatter.code_section || !!this.$page.frontmatter.toc,
           'has-toc': this.$page.frontmatter.toc,
           'has-product-nav': this.hasProductNav
         },

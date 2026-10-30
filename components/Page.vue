@@ -1,7 +1,7 @@
 <template>
   <div class="page">
-    <code-language-switcher v-if="$page.frontmatter.split && $page.frontmatter.code" />
-    <page-toc v-if="$page.frontmatter.split && $page.frontmatter.toc" />
+    <code-language-switcher v-if="$page.frontmatter.code_section" />
+    <page-toc v-if="$page.frontmatter.toc" />
     <slot name="top" />
 
     <Content :custom="false" />

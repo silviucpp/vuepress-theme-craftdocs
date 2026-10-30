@@ -23,7 +23,7 @@
 
         computed: {
             usePageToggle() {
-                return this.$page.frontmatter.split && this.$page.frontmatter.code
+                return !!this.$page.frontmatter.code_section
             }
         },
 
