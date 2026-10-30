@@ -38,13 +38,32 @@
 <script>
 import { resolvePage, resolveSetNeighbor, normalize, outboundRE, endingSlashRE } from "../util";
 import PageToc from "./PageToc.vue";
+import { activeHeading, setHash } from "../scrollSpy";
 
 export default {
   components: { PageToc },
 
   props: ["sidebarItems"],
 
+  mounted() {
+    window.addEventListener("scroll", this.onScrollHash, { passive: true });
+  },
+
+  beforeDestroy() {
+    window.removeEventListener("scroll", this.onScrollHash);
+    clearTimeout(this.hashTimer);
+  },
+
   computed: {
+    // the headings that can be put in the URL while scrolling: the ones of the
+    // table of contents when the page has one, otherwise the ones of the sidebar
+    hashHeaders() {
+      const fm = this.$page.frontmatter;
+      const depth = fm.sidebarDepth != null ? fm.sidebarDepth : this.$site.themeConfig.sidebarDepth;
+      const maxLevel = fm.toc ? 3 : (depth == null ? 1 : depth) + 1;
+      return (this.$page.headers || []).filter(h => h.level >= 2 && h.level <= maxLevel);
+    },
+
     lastUpdated() {
       if (this.$page.lastUpdated) {
         return new Date(this.$page.lastUpdated).toLocaleString(this.$lang);
@@ -124,6 +143,16 @@ export default {
   },
 
   methods: {
+    onScrollHash() {
+      clearTimeout(this.hashTimer);
+      this.hashTimer = setTimeout(() => {
+        const slug = activeHeading(this.hashHeaders.map(h => h.slug));
+        if (slug) {
+          setHash(this, slug);
+        }
+      }, 80);
+    },
+
     createEditLink(repo, docsRepo, docsDir, docsBranch, path) {
       const base = outboundRE.test(docsRepo)
         ? docsRepo

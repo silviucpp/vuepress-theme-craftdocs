@@ -10,6 +10,8 @@
 </template>
 
 <script>
+import { activeHeading, setHash } from '../scrollSpy'
+
 export default {
   data () {
     return { active: null }
@@ -43,26 +45,12 @@ export default {
       if (el) {
         el.scrollIntoView({ behavior: 'smooth', block: 'start' })
       }
-      this.$router.replace({ hash: '#' + slug }).catch(() => {})
+      setHash(this, slug)
+      this.active = slug
     },
 
-    // the heading that is the last one above the reading line
     onScroll () {
-      const line = window.innerHeight * 0.3
-      let current = this.items.length ? this.items[0].slug : null
-      for (const item of this.items) {
-        const el = document.getElementById(item.slug)
-        if (!el) continue
-        // headings carry a large top padding (clearance for the fixed navbar),
-        // so the visible text is near the bottom of the box
-        const text = el.getBoundingClientRect().bottom - 30
-        if (text <= line) {
-          current = item.slug
-        } else {
-          break
-        }
-      }
-      this.active = current
+      this.active = activeHeading(this.items.map(i => i.slug)) || (this.items.length ? this.items[0].slug : null)
     }
   }
 }
