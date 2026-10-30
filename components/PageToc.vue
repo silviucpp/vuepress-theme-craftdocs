@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import { activeHeading, setHash } from '../scrollSpy'
+import { activeHeading, setHash, lockHeading } from '../scrollSpy'
 
 export default {
   data () {
@@ -45,6 +45,7 @@ export default {
       if (el) {
         el.scrollIntoView({ behavior: 'smooth', block: 'start' })
       }
+      lockHeading(slug)
       setHash(this, slug)
       this.active = slug
     },
