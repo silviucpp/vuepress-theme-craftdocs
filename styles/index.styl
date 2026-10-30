@@ -184,6 +184,12 @@ h2 {
   line-height: 1.5;
 }
 
+// first thing on the page: the page already clears the fixed navbar, the
+// "first child" offsets of the layout were written for a heading
+.content__default > .group-title:first-child {
+  margin-top: 0 !important;
+}
+
 h3 {
   font-size: 1.25rem;
 }
