@@ -21,7 +21,7 @@
                      class="action-button btn-ghost" :item="secondaryActionLink"/>
         </p>
 
-        <div class="hero-features" v-if="data.hero && data.hero.features && data.hero.features.length">
+        <div class="hero-features" v-if="data.hero && data.hero.features && data.hero.features.length" :style="{'--cols': data.hero.features.length}">
           <div class="hero-feature" v-for="(item, index) in data.hero.features" :key="index">
             <div class="icon-badge" v-html="heroIcons[item.icon]"></div>
             <div class="ftitle">{{item.title}}</div>
@@ -460,10 +460,10 @@ export default {
 
     .hero-features
       display grid
-      grid-template-columns repeat(4, 1fr)
+      grid-template-columns repeat(var(--cols, 4), 1fr)
       gap 1.25rem
       margin 2.5rem auto 0
-      max-width 52rem
+      max-width calc(var(--cols, 4) * 13rem)
 
     .hero-feature
       display flex
