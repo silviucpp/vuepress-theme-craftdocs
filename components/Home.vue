@@ -97,13 +97,13 @@
 
     <!-- blog listing -->
 
-    <div class="content blog-listing" v-if="data.articles && data.articles.length">
+    <div class="content blog-listing" v-if="isBlogIndex && blogPosts.length">
       <div class="tag-filters" v-if="allTags.length > 1">
         <button
           class="tag-chip"
           :class="{ active: activeTag === 'all' }"
           @click="activeTag = 'all'"
-        >All <span class="count">({{ data.articles.length }})</span></button>
+        >All <span class="count">({{ blogPosts.length }})</span></button>
         <button
           class="tag-chip"
           v-for="tag in allTags"
@@ -265,20 +265,53 @@ export default {
 
     // --- Blog listing ---------------------------------------------------
 
+    // blogPosts (below) is built from every post under /blog/, so it's true
+    // on a post's own page too -- this is what actually scopes the listing
+    // grid/tag-filters to the blog index page itself (src/blog/index.md,
+    // which resolves to exactly this path) rather than showing the whole
+    // grid above/below every individual post's body.
+    isBlogIndex () {
+      return this.$page.path === '/blog/'
+    },
+
+    // The listing used to be a hand-maintained "articles" array duplicating
+    // each post's title/details/tags/date from its own frontmatter (three
+    // places to keep in sync: the post, this array, and the tag taxonomy
+    // below). It's now built straight from the posts' own frontmatter, so a
+    // post only needs its tags/title/description/date set once, in its own
+    // file -- see relatedArticles below for the same pattern applied to a
+    // single post's "you might also like" list.
+    blogPosts () {
+      const posts = (this.$site.pages || []).filter(p =>
+        p.frontmatter &&
+        p.frontmatter.has_content &&
+        p.path && p.path.indexOf('/blog/') === 0
+      )
+      return posts
+        .map(p => ({
+          title: this.postTitle(p.frontmatter),
+          details: p.frontmatter.description || '',
+          url: p.path,
+          tags: p.frontmatter.tags || [],
+          date: p.frontmatter.date
+        }))
+        .sort((a, b) => this.parseDate(b.date) - this.parseDate(a.date))
+    },
+
     featuredArticle () {
-      const arts = this.data.articles
-      return arts && arts.length ? arts[0] : null
+      const arts = this.blogPosts
+      return arts.length ? arts[0] : null
     },
 
     allTags () {
       const set = new Set()
-      ;(this.data.articles || []).forEach(a => (a.tags || []).forEach(t => set.add(this.normTag(t))))
+      this.blogPosts.forEach(a => (a.tags || []).forEach(t => set.add(this.normTag(t))))
       return Array.from(set).sort()
     },
 
     tagCounts () {
       const counts = {}
-      ;(this.data.articles || []).forEach(a => (a.tags || []).forEach(t => {
+      this.blogPosts.forEach(a => (a.tags || []).forEach(t => {
         const norm = this.normTag(t)
         counts[norm] = (counts[norm] || 0) + 1
       }))
@@ -286,7 +319,7 @@ export default {
     },
 
     gridArticles () {
-      const arts = this.data.articles || []
+      const arts = this.blogPosts
       if (this.activeTag === 'all') {
         return arts.slice(1)
       }
@@ -317,7 +350,7 @@ export default {
       })
       scored.sort((a, b) => b.shared - a.shared)
       return scored.slice(0, 3).map(s => ({
-        title: s.p.frontmatter.title || s.p.title,
+        title: this.postTitle(s.p.frontmatter),
         details: s.p.frontmatter.description || '',
         url: s.p.path,
         tags: s.p.frontmatter.tags || [],
@@ -331,6 +364,26 @@ export default {
 
     normTag (tag) {
       return String(tag).trim().toLowerCase().replace(/\s+/g, '-')
+    },
+
+    // A post's frontmatter "title" often carries an SEO suffix for the
+    // <title> tag (e.g. "... | CheckMobi."); card headings want the plain
+    // headline. Strip that suffix rather than asking posts to also keep a
+    // separate "card title" field in sync.
+    postTitle (fm) {
+      const raw = (fm && fm.title) || (fm && fm.h1) || ''
+      const stripped = raw.replace(/\s*\|\s*checkmobi\.?\s*$/i, '').trim()
+      return stripped || (fm && fm.h1) || raw
+    },
+
+    // Used to sort the blog listing by each post's own "date" frontmatter
+    // (e.g. "19 Nov 2026") without needing a separately-ordered list.
+    // Posts with a missing/unparseable date sort to the end rather than
+    // breaking the sort.
+    parseDate (str) {
+      if (!str) return 0
+      const t = Date.parse(str)
+      return isNaN(t) ? 0 : t
     },
 
     tagLabel (norm) {
