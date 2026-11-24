@@ -120,7 +120,7 @@
         <div class="featured-body">
           <span class="featured-badge">Latest</span>
           <p class="tags" v-if="(featuredArticle.tags && featuredArticle.tags.length) || featuredArticle.date">
-            <span class="tag" v-for="tag in featuredArticle.tags" :key="tag">{{tag}}</span>
+            <span class="tag" v-for="tag in featuredArticle.tags" :key="tag">{{tagLabel(normTag(tag))}}</span>
             <span class="tag date" v-if="featuredArticle.date" v-html="featuredArticle.date"></span>
           </p>
           <h2><Link :item="featuredArticle"/></h2>
@@ -137,7 +137,7 @@
       <div class="post-breadcrumb"><router-link to="/blog/">← Back to blog</router-link></div>
 
       <div class="post-meta" v-if="(data.tags && data.tags.length) || data.date || data.readingTime">
-        <span class="tag" v-for="tag in data.tags" :key="tag">{{tag}}</span>
+        <span class="tag" v-for="tag in data.tags" :key="tag">{{tagLabel(normTag(tag))}}</span>
         <span class="meta-sep" v-if="data.tags && data.tags.length && (data.date || data.readingTime)">·</span>
         <span class="meta-plain" v-if="data.date">{{data.date}}</span>
         <span class="meta-sep" v-if="data.date && data.readingTime">·</span>

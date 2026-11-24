@@ -7,7 +7,7 @@
 
     <div class="article-body">
       <p class="tags" v-if="(item.tags && item.tags.length) || item.date">
-        <span class="tag" v-for="tag in item.tags" :key="tag">{{ tag }}</span>
+        <span class="tag" v-for="tag in item.tags" :key="tag">{{ tagLabel(tag) }}</span>
         <span class="tag date" v-if="item.date" v-html="item.date"></span>
       </p>
       <p v-html="item.details"></p>
@@ -39,6 +39,25 @@ export function iconForTags (tags, themeConfig) {
   return iconLib[iconName] || defaultIcons[defaultIconName] || defaultIcons[DEFAULT_ICON_NAME]
 }
 
+// Normalizes a raw frontmatter tag (which may have any casing/spacing) to
+// the lowercase, hyphenated key themeConfig.tagLabels/tagIcons are keyed by.
+export function normTag (tag) {
+  return String(tag).trim().toLowerCase().replace(/\s+/g, '-')
+}
+
+// The display label for a tag everywhere it's shown (filter chips, card
+// badges, post meta): themeConfig.tagLabels wins when the site has set one
+// (e.g. "HLR"), otherwise each hyphen-separated word gets its first letter
+// capitalized as a reasonable default. One function so every tag badge on
+// the site agrees on casing instead of some showing the raw frontmatter
+// string -- see Home.vue's own tagLabel/normTag methods, which delegate here.
+export function tagLabel (tag, themeConfig) {
+  const labels = (themeConfig && themeConfig.tagLabels) || {}
+  const norm = normTag(tag)
+  if (labels[norm]) return labels[norm]
+  return norm.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
+}
+
 export default {
   components: { Link },
 
@@ -56,6 +75,12 @@ export default {
 
     iconSvg () {
       return iconForTags(this.item.tags, this.$site.themeConfig)
+    }
+  },
+
+  methods: {
+    tagLabel (tag) {
+      return tagLabel(tag, this.$site.themeConfig)
     }
   }
 }
